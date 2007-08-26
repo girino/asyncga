@@ -1,0 +1,7 @@
+#General notes to guide the design process
+
+= Notes =
+== iterations ==
+I am thinking of implementing the operations (mating, mutating, dying, etc) as a set of operators that apply iteratively over the population as a whole.
+
+dying probability should be dependent on population size. Maybe use some quadratic formula to calculate the limit age, then a gaussian probability to decide if individuals must die!
