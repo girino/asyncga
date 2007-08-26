@@ -149,7 +149,32 @@ class strategy1(asyncga):
         [x.make_older() for x in population]
         return [x for x in population if x.get_age() <= self.life_expectancy]
 
+class strategy2(strategy1):
+    """
+    Adjusts dying age acording to fitness
+    """
+    def die(self, population):
+        """
+        most fit die old, less fit die young
+        """
+        [x.make_older() for x in population]
+        fitnesses = [x.evaluate() for x in population]
+        minf = min(fitnesses)
+        # rescale fitnesses
+        fitnesses = [x - minf for x in fitnesses]
+        maxf = max(fitnesses)
+        # normalize
+        if maxf * self.life_expectancy > 1:
+            fitnesses = [1-(x/maxf) for x in fitnesses]
+        else:
+            return population
+        ages = [x.get_age() for x in population]
+        #print [(ages[i], fitnesses[i], fitnesses[i] * self.life_expectancy) for i in range(0, len(ages))]
+        return [population[i] for i in range(0, len(population)) if ages[i] <= self.life_expectancy * fitnesses[i]]
+        
+
 if __main__:
-    #ga = asyncga(lambda: dejong_f1_individual(), 200)
-    ga = strategy1(lambda: dejong_f1_individual(), 200)
-    ga.run(100, 0, 0.0001)
+    #ga = asyncga(lambda: dejong_f2_individual(), 200)
+    #ga = strategy1(lambda: dejong_f2_individual(), 200)
+    ga = strategy2(lambda: dejong_f2_individual(), 200)
+    ga.run(1000, 0, 0)
