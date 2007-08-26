@@ -4,6 +4,8 @@
 class individual:
     """interface of an actual individual
     """
+    def __init__(self):
+        self.age = 0
     def mate(self, other):
         """mates this individual with another (of same type)
         """

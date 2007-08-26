@@ -10,6 +10,7 @@ class numeric_individual(individual):
     each chromossome is a real number and stuff.
     """
     def __init__(self, size=0, min = 0, max = 100):
+        individual.__init__(self)
         self.chromossome = [uniform(min, max) for i in range(0, size)]
         self.size = size
         self.min = min

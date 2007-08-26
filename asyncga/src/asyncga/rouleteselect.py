@@ -97,7 +97,7 @@ class performance_calculator:
         return "online: %f, offline %f" % (self.online(), self.offline())
     
 class asyncga:
-    def __init__(self, factory_method, size, life_expectancy=None):
+    def __init__(self, factory_method, size, life_expectancy=10):
         self.population = [factory_method() for i in range(0, size)]
         self.size = size
         self.life_expectancy = life_expectancy
@@ -118,7 +118,7 @@ class asyncga:
             iter = iter + 1
             self.performance_calculator.update_iter([x.evaluate() for x in population])
             # printing is last thing
-            print iter, best_eval, best, self.performance_calculator
+            print iter, len(self.population), best_eval, self.performance_calculator
         return best
     def mate(self, population):
         # mimics the traditional GA.
@@ -133,8 +133,23 @@ class asyncga:
         # traditional GA, no one dies
         return population
         
-
+class strategy1(asyncga):
+    """implements some primitive type of mating and diying
+    """
+    def mate(self, population):
+        """ 
+        each "generation" gets (1/expectancy) more individuals
+        so that population doubles over 1 lifetime and stabilizes
+        on original size afterwards
+        """
+        selector = roulete(population, True)
+        next_gen = [selector.select().mate(selector.select()) for i in range(0, self.size/self.life_expectancy)]
+        return population + next_gen
+    def die(self, population):
+        [x.make_older() for x in population]
+        return [x for x in population if x.get_age() <= self.life_expectancy]
 
 if __main__:
-    ga = asyncga(lambda: dejong_f1_individual(), 200)
+    #ga = asyncga(lambda: dejong_f1_individual(), 200)
+    ga = strategy1(lambda: dejong_f1_individual(), 200)
     ga.run(100, 0, 0.0001)
