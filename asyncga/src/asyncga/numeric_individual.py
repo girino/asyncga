@@ -3,6 +3,7 @@
 from asyncga.individual import individual
 from random import uniform
 from random import randint
+from random import normalvariate
 
 class numeric_individual(individual):
     """that's the tradicional numeric individual
@@ -31,7 +32,12 @@ class numeric_individual(individual):
         mutationpoint = randint(0, self.size-1)
         #print mutationpoint
         old = self.chromossome[mutationpoint]
-        self.chromossome[mutationpoint] = uniform(self.min, self.max)
+        stdev = (self.max - self.min)/4.0
+        newvalue = normalvariate(old, stdev)
+        # binds to limits
+        newvalue = min([newvalue, self.max])
+        newvalue = max([newvalue, self.min])
+        self.chromossome[mutationpoint] = newvalue
         #print "mutated pos", mutationpoint, "from", old, "to", self.chromossome[mutationpoint]
         return self
     def evaluate(self, model=None):
