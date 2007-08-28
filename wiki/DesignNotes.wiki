@@ -8,14 +8,15 @@ dying probability should be dependent on population size. Maybe use some quadrat
 
 = Update Aug 28 =
 I finished implementing a simple stuff, now the GA is able to:
-* do all traditional GA does (roulete select, mate, mutate)
-* aging
-* die :) Dying is implemented in teh following ways:
-** age
-** age adjusted by fitness (fittest die older).
+  * do all traditional GA does (roulete select, mate, mutate)
+  * aging
+  * die :) Dying is implemented in teh following ways:
+    * age
+    * age adjusted by fitness (fittest die older).
 
 Just to note, when reproducing, only part of the population is created (something like n/maxage individuals) so they can live with older generations without overpopulation.
 
 == Needs to do ==
-*Stochastic number of new offspring (need to figure out some formula)
-*Stochastic dying (not only adjust age acording to fitness, but introducing some randomness too).
+  * Stochastic number of new offspring (need to figure out some formula)
+  * Stochastic dying (not only adjust age acording to fitness, but introducing some randomness too).
+
