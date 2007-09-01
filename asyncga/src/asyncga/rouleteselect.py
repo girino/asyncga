@@ -5,6 +5,7 @@ from asyncga.numeric_individual import dejong_f1_individual
 from xmlrpclib import MAXINT
 from random import random
 from asyncga.numeric_individual import dejong_f2_individual
+from random import normalvariate
 import __main__
 
 class roulete:
@@ -171,10 +172,51 @@ class strategy2(strategy1):
         ages = [x.get_age() for x in population]
         #print [(ages[i], fitnesses[i], fitnesses[i] * self.life_expectancy) for i in range(0, len(ages))]
         return [population[i] for i in range(0, len(population)) if ages[i] <= self.life_expectancy * fitnesses[i]]
-        
+
+class strategy3(strategy2):
+    """
+    stochastic number of breadings
+    """
+    def mate(self, population):
+        """ 
+        number of new individuas per generation is a normal distribution
+        with N/life_expectancy as mean and N/2 as stddev.
+        """
+        num = normalvariate(self.size/self.life_expectancy, self.size/(2.0*self.life_expectancy))
+        #print "num:", num
+        selector = roulete(population, True)
+        next_gen = [selector.select().mate(selector.select()) for i in range(0, num)]
+        return population + next_gen
+    
+class strategy4(strategy3):
+    """
+    stochastic deaths
+    """
+    def die(self, population):
+        """
+        deaths are adjusted by fitness and by a random normal distributed factor.
+        I'll try normal(life_expectancy * fitnesses, life_expectancy/2)
+        """
+        [x.make_older() for x in population]
+        fitnesses = [x.evaluate() for x in population]
+        minf = min(fitnesses)
+        # rescale fitnesses
+        fitnesses = [x - minf for x in fitnesses]
+        maxf = max(fitnesses)
+        # normalize
+        if maxf * self.life_expectancy > 1:
+            fitnesses = [1-(x/maxf) for x in fitnesses]
+        else:
+            return population
+        ages = [x.get_age() for x in population]
+        #print [(ages[i], fitnesses[i], fitnesses[i] * self.life_expectancy) for i in range(0, len(ages))]
+        stochastic_ages = [normalvariate(self.life_expectancy * fitnesses[i], self.life_expectancy/2.0) for i in range(0, len(population))]
+        return [population[i] for i in range(0, len(population)) if ages[i] <= stochastic_ages[i]]
 
 if __main__:
     #ga = asyncga(lambda: dejong_f2_individual(), 200)
     #ga = strategy1(lambda: dejong_f2_individual(), 200)
-    ga = strategy2(lambda: dejong_f2_individual(), 200)
+    #ga = strategy2(lambda: dejong_f2_individual(), 200)
+    #ga = strategy3(lambda: dejong_f2_individual(), 200)
+    ga = strategy4(lambda: dejong_f2_individual(), 200)
     ga.run(1000, 0, 0)
