@@ -98,12 +98,13 @@ class performance_calculator:
         return "online: %f, offline %f" % (self.online(), self.offline())
     
 class asyncga:
-    def __init__(self, factory_method, size, life_expectancy=10):
+    def __init__(self, factory_method, size, life_expectancy=10, stats=None):
         self.population = [factory_method() for i in range(0, size)]
         self.size = size
         self.life_expectancy = life_expectancy
         self.mut_prob = 0.01
         self.performance_calculator = performance_calculator()
+        self.stats = stats
     def run(self, maxiter, target=MAXINT, delta=0):
         population = self.population
         iter = 0
@@ -119,7 +120,14 @@ class asyncga:
             iter = iter + 1
             self.performance_calculator.update_iter([x.evaluate() for x in population])
             # printing is last thing
-            print iter, len(self.population), best_eval, self.performance_calculator
+            if self.stats:
+                self.stats.colect("a-len", iter, len(self.population))
+                self.stats.colect("b-best", iter, best_eval)
+                self.stats.colect("c-online", iter, self.performance_calculator.online())
+                self.stats.colect("d-offline", iter, self.performance_calculator.offline())
+            else:
+                print iter, len(self.population), best_eval, self.performance_calculator
+        #print self.stats
         return best
     def mate(self, population):
         # mimics the traditional GA.
@@ -212,11 +220,59 @@ class strategy4(strategy3):
         #print [(ages[i], fitnesses[i], fitnesses[i] * self.life_expectancy) for i in range(0, len(ages))]
         stochastic_ages = [normalvariate(self.life_expectancy * fitnesses[i], self.life_expectancy/2.0) for i in range(0, len(population))]
         return [population[i] for i in range(0, len(population)) if ages[i] <= stochastic_ages[i]]
+    
+class stats_colector:
+    """
+    Colects stats and prints them as CSV
+    """
+    def __init__(self):
+        self.labels = dict()
+    def colect(self, label, point, value):
+        if not self.labels.has_key(label):
+            self.labels[label] = []
+        while len(self.labels[label]) <= point:
+            self.labels[label] += [[]]
+        self.labels[label][point] += [value]
+    def __repr__(self):
+        ret = "iter"
+        labels = self.labels.keys()
+        labels.sort()
+        for label in labels:
+            ret += ",max-" + label + ",min-" + label + ",avg-" + label
+        for iter in range(1, len(self.labels[labels[0]])):
+            ret += "\n" + str(iter)
+            for label in labels:
+                mx = max(self.labels[label][iter])
+                mn = min(self.labels[label][iter])
+                avg = sum(self.labels[label][iter])*1.0/len(self.labels[label][iter])
+                ret += ",%f,%f,%f" % (mx,mn,avg)
+                #ret += str(self.labels[label][iter]) + ","
+        return ret
 
 if __main__:
-    #ga = asyncga(lambda: dejong_f2_individual(), 200)
-    #ga = strategy1(lambda: dejong_f2_individual(), 200)
-    #ga = strategy2(lambda: dejong_f2_individual(), 200)
-    #ga = strategy3(lambda: dejong_f2_individual(), 200)
-    ga = strategy4(lambda: dejong_f2_individual(), 200)
-    ga.run(1000, 0, 0)
+    steps = 1000
+    popsize = 500
+    age = 10
+    loop = 20
+    stats4 = stats_colector()
+    stats3 = stats_colector()
+    stats2 = stats_colector()
+    stats1 = stats_colector()
+    stats0 = stats_colector()
+    for i in range(0, loop):
+        ga = asyncga(lambda: dejong_f2_individual(), popsize, age, stats0)
+        ga.run(steps, 0, 0)
+        ga = strategy1(lambda: dejong_f2_individual(), popsize, age, stats1)
+        ga.run(steps, 0, 0)
+        ga = strategy2(lambda: dejong_f2_individual(), popsize, age, stats2)
+        ga.run(steps, 0, 0)
+        ga = strategy3(lambda: dejong_f2_individual(), popsize, age, stats3)
+        ga.run(steps, 0, 0)
+        ga = strategy4(lambda: dejong_f2_individual(), popsize, age, stats4)
+        ga.run(steps, 0, 0)
+    print stats4
+    print stats3
+    print stats2
+    print stats1
+    print stats0
+    
