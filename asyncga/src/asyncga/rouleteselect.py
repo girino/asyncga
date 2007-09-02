@@ -6,6 +6,8 @@ from xmlrpclib import MAXINT
 from random import random
 from asyncga.numeric_individual import dejong_f2_individual
 from random import normalvariate
+from asyncga.numeric_individual import dejong_f3_individual
+import sys
 import __main__
 
 class roulete:
@@ -81,17 +83,21 @@ class performance_calculator:
     def __init__(self):
         self.iter = 0
         self.online_sum = 0.0
+        self.online_last = 0.0
         self.offline_sum = 0.0
     def update_iter(self, fitnesses):
         self.iter = self.iter + 1
         # online
         avg = 1.0*sum(fitnesses)/len(fitnesses)
         self.online_sum = self.online_sum + avg
+        self.online_last = avg
         # offline
         bestfit = min(fitnesses)
         self.offline_sum = self.offline_sum + bestfit
-    def online(self):
+    def online1(self):
         return 1.0*self.online_sum/self.iter
+    def online2(self):
+        return self.online_last
     def offline(self):
         return 1.0*self.offline_sum/self.iter
     def __repr__(self):
@@ -123,8 +129,9 @@ class asyncga:
             if self.stats:
                 self.stats.colect("a-len", iter, len(self.population))
                 self.stats.colect("b-best", iter, best_eval)
-                self.stats.colect("c-online", iter, self.performance_calculator.online())
-                self.stats.colect("d-offline", iter, self.performance_calculator.offline())
+                self.stats.colect("c-online1", iter, self.performance_calculator.online1())
+                self.stats.colect("d-online2", iter, self.performance_calculator.online2())
+                self.stats.colect("e-offline", iter, self.performance_calculator.offline())
             else:
                 print iter, len(self.population), best_eval, self.performance_calculator
         #print self.stats
@@ -156,7 +163,11 @@ class strategy1(asyncga):
         return population + next_gen
     def die(self, population):
         [x.make_older() for x in population]
-        return [x for x in population if x.get_age() <= self.life_expectancy]
+        ret = [x for x in population if x.get_age() <= self.life_expectancy]
+        if len(ret) <= 0:
+            selector = roulete(population, True)
+            ret = [selector.select(), selector.select()]
+        return ret
 
 class strategy2(strategy1):
     """
@@ -179,7 +190,11 @@ class strategy2(strategy1):
             return population
         ages = [x.get_age() for x in population]
         #print [(ages[i], fitnesses[i], fitnesses[i] * self.life_expectancy) for i in range(0, len(ages))]
-        return [population[i] for i in range(0, len(population)) if ages[i] <= self.life_expectancy * fitnesses[i]]
+        ret = [population[i] for i in range(0, len(population)) if ages[i] <= self.life_expectancy * fitnesses[i]]
+        if len(ret) < 1:
+            selector = roulete(population, True)
+            ret = [selector.select()]
+        return ret
 
 class strategy3(strategy2):
     """
@@ -219,7 +234,11 @@ class strategy4(strategy3):
         ages = [x.get_age() for x in population]
         #print [(ages[i], fitnesses[i], fitnesses[i] * self.life_expectancy) for i in range(0, len(ages))]
         stochastic_ages = [normalvariate(self.life_expectancy * fitnesses[i], self.life_expectancy/2.0) for i in range(0, len(population))]
-        return [population[i] for i in range(0, len(population)) if ages[i] <= stochastic_ages[i]]
+        ret = [population[i] for i in range(0, len(population)) if ages[i] <= stochastic_ages[i]]
+        if len(ret) < 1:
+            selector = roulete(population, True)
+            ret = [selector.select()]
+        return ret
     
 class stats_colector:
     """
@@ -250,29 +269,39 @@ class stats_colector:
         return ret
 
 if __main__:
-    steps = 1000
+    steps = 2000
     popsize = 500
     age = 10
     loop = 20
+    creator = lambda: dejong_f1_individual()
+    #creator = lambda: dejong_f3_individual()
+    if len(sys.argv) > 1 and sys.argv[1] == "2":
+        creator = lambda: dejong_f2_individual()
+    if len(sys.argv) > 1 and sys.argv[1] == "3":
+        creator = lambda: dejong_f3_individual()
+#    if sys.argv[0] and sys.argv[0] == 4:
+#        creator = lambda: dejong_f4_individual()
+#    if sys.argv[0] and sys.argv[0] ==52:
+#        creator = lambda: dejong_f5_individual()
     stats4 = stats_colector()
     stats3 = stats_colector()
     stats2 = stats_colector()
     stats1 = stats_colector()
     stats0 = stats_colector()
     for i in range(0, loop):
-        ga = asyncga(lambda: dejong_f2_individual(), popsize, age, stats0)
+        ga = asyncga(creator, popsize, age, stats0)
         ga.run(steps, 0, 0)
-        ga = strategy1(lambda: dejong_f2_individual(), popsize, age, stats1)
+        ga = strategy1(creator, popsize, age, stats1)
         ga.run(steps, 0, 0)
-        ga = strategy2(lambda: dejong_f2_individual(), popsize, age, stats2)
+        ga = strategy2(creator, popsize, age, stats2)
         ga.run(steps, 0, 0)
-        ga = strategy3(lambda: dejong_f2_individual(), popsize, age, stats3)
+        ga = strategy3(creator, popsize, age, stats3)
         ga.run(steps, 0, 0)
-        ga = strategy4(lambda: dejong_f2_individual(), popsize, age, stats4)
+        ga = strategy4(creator, popsize, age, stats4)
         ga.run(steps, 0, 0)
-    print stats4
-    print stats3
-    print stats2
-    print stats1
     print stats0
+    print stats1
+    print stats2
+    print stats3
+    print stats4
     
