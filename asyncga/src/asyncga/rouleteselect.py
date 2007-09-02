@@ -7,6 +7,8 @@ from random import random
 from asyncga.numeric_individual import dejong_f2_individual
 from random import normalvariate
 from asyncga.numeric_individual import dejong_f3_individual
+from asyncga.numeric_individual import dejong_f4_individual
+from asyncga.numeric_individual import dejong_f5_individual
 import sys
 import __main__
 
@@ -101,7 +103,7 @@ class performance_calculator:
     def offline(self):
         return 1.0*self.offline_sum/self.iter
     def __repr__(self):
-        return "online: %f, offline %f" % (self.online(), self.offline())
+        return "online1: %f, online2: %f, offline %f" % (self.online1(), self.online2(), self.offline())
     
 class asyncga:
     def __init__(self, factory_method, size, life_expectancy=10, stats=None):
@@ -269,25 +271,26 @@ class stats_colector:
         return ret
 
 if __main__:
-    steps = 2000
+    steps = 200
     popsize = 500
     age = 10
-    loop = 20
+    loop = 2
     creator = lambda: dejong_f1_individual()
-    #creator = lambda: dejong_f3_individual()
+    creator = lambda: dejong_f5_individual()
     if len(sys.argv) > 1 and sys.argv[1] == "2":
         creator = lambda: dejong_f2_individual()
     if len(sys.argv) > 1 and sys.argv[1] == "3":
         creator = lambda: dejong_f3_individual()
-#    if sys.argv[0] and sys.argv[0] == 4:
-#        creator = lambda: dejong_f4_individual()
-#    if sys.argv[0] and sys.argv[0] ==52:
-#        creator = lambda: dejong_f5_individual()
+    if len(sys.argv) > 1 and sys.argv[1] == "4":
+        creator = lambda: dejong_f4_individual()
+    if len(sys.argv) > 1 and sys.argv[1] == "5":
+        creator = lambda: dejong_f5_individual()
     stats4 = stats_colector()
     stats3 = stats_colector()
     stats2 = stats_colector()
     stats1 = stats_colector()
     stats0 = stats_colector()
+    stats0 = stats1 = stats2 = stats3 = stats4 = None
     for i in range(0, loop):
         ga = asyncga(creator, popsize, age, stats0)
         ga.run(steps, 0, 0)
