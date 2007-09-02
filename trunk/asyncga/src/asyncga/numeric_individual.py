@@ -4,6 +4,7 @@ from asyncga.individual import individual
 from random import uniform
 from random import randint
 from random import normalvariate
+import random
 import math
 
 class numeric_individual(individual):
@@ -89,7 +90,7 @@ class dejong_f2_individual(numeric_individual):
         return "F2 Individual: " + repr(self.chromossome)
 
 class dejong_f3_individual(numeric_individual):
-    """implements individuals to solve dejong's f1
+    """implements individuals to solve dejong's f3
     """
     def __init__(self, empty=False):
         if empty:
@@ -106,3 +107,48 @@ class dejong_f3_individual(numeric_individual):
         return sum([int(x) for x in self.chromossome])
     def __repr__(self):
         return "F3 Individual: " + repr(self.chromossome)
+    
+class dejong_f4_individual(numeric_individual):
+    """implements individuals to solve dejong's f4
+    """
+    def __init__(self, empty=False):
+        if empty:
+            numeric_individual.__init__(self, 0, -1.28, 1.28)
+        else:
+            numeric_individual.__init__(self, 30, -1.28, 1.28)
+        self.noise = random.gauss(0,1)
+    def make_instance(self):
+        """MUST BE OVERIDDEN
+        """
+        return dejong_f4_individual(True)
+    def evaluate(self, model=None):
+        """evaluates dejong's f'
+        """
+        ret = [math.pow(x, 4) for x in self.chromossome]
+        ret = [i*ret[i] for i in range(0, len(ret))]
+        return self.noise + sum(ret)
+    def __repr__(self):
+        return "F4 Individual: " + repr(self.chromossome)
+    
+class dejong_f5_individual(numeric_individual):
+    """implements individuals to solve dejong's f5
+    """
+    def __init__(self, empty=False):
+        if empty:
+            numeric_individual.__init__(self, 0, -65.536, 65.536)
+        else:
+            numeric_individual.__init__(self, 2, -65.536, 65.536)
+        self.noise = random.gauss(0,1)
+    def make_instance(self):
+        """MUST BE OVERIDDEN
+        """
+        return dejong_f5_individual(True)
+    def evaluate(self, model=None):
+        """evaluates dejong's f'
+        """
+        a = [[-32,-16,0,16,32] * 5, [-32] * 5 + [-16] * 5 + [0] * 5 + [16] * 5 + [32] * 5]
+        x = self.chromossome
+        ret = 0.002 + sum([1/(j + sum([math.pow(x[i] - a[i][j-1], 6) for i in range(0,2)])) for j in range(1, 26)])
+        return 1.0/ret
+    def __repr__(self):
+        return "F5 Individual: " + repr(self.chromossome)
