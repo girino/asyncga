@@ -271,12 +271,12 @@ class stats_colector:
         return ret
 
 if __main__:
-    steps = 200
+    steps = 2000
     popsize = 500
     age = 10
-    loop = 2
+    loop = 20
     creator = lambda: dejong_f1_individual()
-    creator = lambda: dejong_f5_individual()
+    #creator = lambda: dejong_f5_individual()
     if len(sys.argv) > 1 and sys.argv[1] == "2":
         creator = lambda: dejong_f2_individual()
     if len(sys.argv) > 1 and sys.argv[1] == "3":
@@ -290,7 +290,7 @@ if __main__:
     stats2 = stats_colector()
     stats1 = stats_colector()
     stats0 = stats_colector()
-    stats0 = stats1 = stats2 = stats3 = stats4 = None
+    #stats0 = stats1 = stats2 = stats3 = stats4 = None
     for i in range(0, loop):
         ga = asyncga(creator, popsize, age, stats0)
         ga.run(steps, 0, 0)
