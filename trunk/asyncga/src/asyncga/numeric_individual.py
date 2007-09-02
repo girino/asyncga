@@ -4,6 +4,7 @@ from asyncga.individual import individual
 from random import uniform
 from random import randint
 from random import normalvariate
+import math
 
 class numeric_individual(individual):
     """that's the tradicional numeric individual
@@ -86,4 +87,22 @@ class dejong_f2_individual(numeric_individual):
         return 100*((x1**2 - x2)**2) + (1 - x1)**2
     def __repr__(self):
         return "F2 Individual: " + repr(self.chromossome)
-    
+
+class dejong_f3_individual(numeric_individual):
+    """implements individuals to solve dejong's f1
+    """
+    def __init__(self, empty=False):
+        if empty:
+            numeric_individual.__init__(self, 0, -5.12, 5.12)
+        else:
+            numeric_individual.__init__(self, 5, -5.12, 5.12)
+    def make_instance(self):
+        """MUST BE OVERIDDEN
+        """
+        return dejong_f3_individual(True)
+    def evaluate(self, model=None):
+        """evaluates dejong's f'
+        """
+        return sum([int(x) for x in self.chromossome])
+    def __repr__(self):
+        return "F3 Individual: " + repr(self.chromossome)
