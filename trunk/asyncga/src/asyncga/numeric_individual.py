@@ -17,6 +17,7 @@ class numeric_individual(individual):
         self.size = size
         self.min = min
         self.max = max
+        self.cache = None
 
     def make_instance(self):
         """MUST BE OVERIDDEN
@@ -44,7 +45,15 @@ class numeric_individual(individual):
         #print "mutated pos", mutationpoint, "from", old, "to", self.chromossome[mutationpoint]
         return self
     def evaluate(self, model=None):
-        """still not implemented here
+        """
+        This one calls the __evaluate__ method and caches it.
+        """
+        if not self.cache:
+            self.cache = self.__evaluate__(model)
+        return self.cache
+    def __evaluate__(self, model=None):
+        """
+        This one is called and cached
         """
     def __repr__(self):
         return "Numeric Individual: " + repr(self.chromossome)
@@ -61,7 +70,7 @@ class dejong_f1_individual(numeric_individual):
         """MUST BE OVERIDDEN
         """
         return dejong_f1_individual(True)
-    def evaluate(self, model=None):
+    def __evaluate__(self, model=None):
         """evaluates dejong's f'
         """
         return sum([x*x for x in self.chromossome])
@@ -80,7 +89,7 @@ class dejong_f2_individual(numeric_individual):
         """MUST BE OVERIDDEN
         """
         return dejong_f2_individual(True)
-    def evaluate(self, model=None):
+    def __evaluate__(self, model=None):
         """evaluates dejong's f'
         """
         x1 = self.chromossome[0]
@@ -101,7 +110,7 @@ class dejong_f3_individual(numeric_individual):
         """MUST BE OVERIDDEN
         """
         return dejong_f3_individual(True)
-    def evaluate(self, model=None):
+    def __evaluate__(self, model=None):
         """evaluates dejong's f'
         """
         return sum([int(x) for x in self.chromossome])
@@ -121,7 +130,7 @@ class dejong_f4_individual(numeric_individual):
         """MUST BE OVERIDDEN
         """
         return dejong_f4_individual(True)
-    def evaluate(self, model=None):
+    def __evaluate__(self, model=None):
         """evaluates dejong's f'
         """
         ret = [math.pow(x, 4) for x in self.chromossome]
@@ -143,7 +152,7 @@ class dejong_f5_individual(numeric_individual):
         """MUST BE OVERIDDEN
         """
         return dejong_f5_individual(True)
-    def evaluate(self, model=None):
+    def __evaluate__(self, model=None):
         """evaluates dejong's f'
         """
         a = [[-32,-16,0,16,32] * 5, [-32] * 5 + [-16] * 5 + [0] * 5 + [16] * 5 + [32] * 5]
