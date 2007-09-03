@@ -2,7 +2,7 @@ LabPlot 1.5.1 : 24
 
 
 1188701629
-1188702481
+1188756542
 
 0
 Spreadsheet 0 0
@@ -2027,7 +2027,7 @@ avg-e-offline {double} [Y]
 "0" "1999" "500.000000" "500.000000" "500.000000" "0.478897" "0.024493" "0.228094" "6.627036" "5.061873" "5.745985" "8.708686" "1.513454" "3.976219" "0.428249" "0.037192" "0.204528" 
 "0" "2000" "500.000000" "500.000000" "500.000000" "0.478897" "0.024493" "0.222588" "6.626444" "5.060270" "5.744965" "8.676505" "1.047330" "3.706315" "0.428275" "0.037186" "0.204537" 
 Spreadsheet 1 0
-237 0
+249 0
 Policy 1
 16 2000
 
@@ -4048,7 +4048,7 @@ avg-e-offline {double} [Y]
 "0" "1999" "500.000000" "500.000000" "500.000000" "0.407960" "0.001280" "0.145747" "63.190272" "53.238277" "58.529770" "72.924918" "31.950002" "45.363450" "0.236114" "0.041818" "0.125336" 
 "0" "2000" "500.000000" "500.000000" "500.000000" "0.407960" "0.001280" "0.121331" "63.195191" "53.236584" "58.523214" "73.026872" "31.819507" "45.416733" "0.236085" "0.041816" "0.125334" 
 Spreadsheet 2 0
-474 0
+498 0
 Policy 2
 16 2000
 
@@ -6069,7 +6069,7 @@ avg-e-offline {double} [Y]
 "0" "1999" "485.000000" "428.000000" "455.900000" "0.305553" "0.000613" "0.095287" "5.739116" "4.400559" "4.986179" "3.009570" "0.767026" "1.742870" "0.272050" "0.005072" "0.090630" 
 "0" "2000" "485.000000" "435.000000" "456.800000" "0.305553" "0.000613" "0.090356" "5.736514" "4.399704" "4.984613" "3.376831" "0.485749" "1.854378" "0.272067" "0.005070" "0.090630" 
 Spreadsheet 3 0
-509 0
+0 228
 Policy 3
 16 2000
 
@@ -8090,7 +8090,7 @@ avg-e-offline {double} [Y]
 "0" "1999" "548.000000" "272.000000" "454.950000" "0.407805" "0.001090" "0.147350" "5.939191" "3.931180" "4.922776" "3.776494" "0.256309" "1.638094" "0.420025" "0.007095" "0.143246" 
 "0" "2000" "589.000000" "252.000000" "443.250000" "0.407805" "0.001090" "0.150851" "5.937917" "3.929815" "4.921138" "3.827989" "0.437210" "1.648280" "0.420019" "0.007092" "0.143249" 
 Spreadsheet 4 0
-0 0
+249 228
 Policy 4
 16 2000
 
@@ -12242,7 +12242,7 @@ Adobe Times
 Adobe Times
 22 50 0
 #000000
-0.4 0.04
+0.2 0.04
 0
 0
 0
@@ -12262,11 +12262,11 @@ Adobe Times
 #000000
 2 3 1
 1 1 1 1
-<html><head><meta name="qrichtext" content="1" /></head><body style="font-size:15pt;font-family:Adobe Times"><p>x-Axis</p></body></html>
+<html><head><meta name="qrichtext" content="1" /></head><body style="font-size:15pt;font-family:Adobe Times"><p>Iterations</p></body></html>
 Adobe Times
 15 50 0
 #000000
-0.548333 0.91
+0.482486631016043 0.91
 0
 0
 0
@@ -12298,11 +12298,11 @@ auto
 #000000
 2 3 1
 1 1 1 1
-<html><head><meta name="qrichtext" content="1" /></head><body style="font-size:15pt;font-family:Adobe Times"><p>y-Axis</p></body></html>
+<html><head><meta name="qrichtext" content="1" /></head><body style="font-size:15pt;font-family:Adobe Times"><p>De Jong's F2(x)</p></body></html>
 Adobe Times
 15 50 0
 #000000
-0.01 0.4975
+0.01 0.630044843049327
 0
 0
 0
@@ -22558,7 +22558,7 @@ EOG 5
 Adobe Times
 22 50 0
 #000000
-0.4 0.04
+0.2 0.04
 0
 0
 0
@@ -22578,11 +22578,11 @@ Adobe Times
 #000000
 2 3 1
 1 1 1 1
-x-Axis
+<html><head><meta name="qrichtext" content="1" /></head><body style="font-size:15pt;font-family:Adobe Times"><p>Iterations</p></body></html>
 Adobe Times
 15 50 0
 #000000
-0.549465240641711 0.905829596412556
+0.482486631016043 0.90583
 0
 0
 0
@@ -22614,11 +22614,11 @@ auto
 #000000
 2 3 1
 1 1 1 1
-<html><head><meta name="qrichtext" content="1" /></head><body style="font-size:15pt;font-family:Adobe Times"><p>y-Axis</p></body></html>
+<html><head><meta name="qrichtext" content="1" /></head><body style="font-size:15pt;font-family:Adobe Times"><p>De Jong's F2(x)</p></body></html>
 Adobe Times
 15 50 0
 #000000
-0.01 0.497758
+0.01 0.630044843049327
 0
 0
 0
@@ -32857,7 +32857,7 @@ EOG 5
 0
 10
 1 2000
-0.059113 0.21275
+0.0591 0.213
 0 0
 0 0 0 0
 0 0 0
@@ -32870,11 +32870,11 @@ EOG 5
 0 0
 1 2
 #ff0000 1
-<html><head><meta name="qrichtext" content="1" /></head><body style="font-size:22pt;font-family:Adobe Times"><p>Offline Average</p></body></html>
+<html><head><meta name="qrichtext" content="1" /></head><body style="font-size:22pt;font-family:Adobe Times"><p>Offline (running average)</p></body></html>
 Adobe Times
 22 50 0
 #000000
-0.4 0.04
+0.2 0.04
 0
 0
 0
@@ -32894,11 +32894,11 @@ Adobe Times
 #000000
 2 3 1
 1 1 1 1
-x-Axis
+<html><head><meta name="qrichtext" content="1" /></head><body style="font-size:15pt;font-family:Adobe Times"><p>Iterations</p></body></html>
 Adobe Times
 15 50 0
 #000000
-0.549465240641711 0.905829596412556
+0.482486631016043 0.90583
 0
 0
 0
@@ -32930,11 +32930,11 @@ auto
 #000000
 2 3 1
 1 1 1 1
-<html><head><meta name="qrichtext" content="1" /></head><body style="font-size:15pt;font-family:Adobe Times"><p>y-Axis</p></body></html>
+<html><head><meta name="qrichtext" content="1" /></head><body style="font-size:15pt;font-family:Adobe Times"><p>De Jong's F2(x)</p></body></html>
 Adobe Times
 15 50 0
 #000000
-0.01 0.497758
+0.01 0.630044843049327
 0
 0
 0
@@ -43173,7 +43173,7 @@ EOG 5
 0
 10
 1 2000
-0.000674 0.066677
+0.000674 0.0667
 0 0
 0 0 0 0
 0 0 0
@@ -43210,11 +43210,11 @@ Adobe Times
 #000000
 2 3 1
 1 1 1 1
-x-Axis
+<html><head><meta name="qrichtext" content="1" /></head><body style="font-size:15pt;font-family:Adobe Times"><p>Iterations</p></body></html>
 Adobe Times
 15 50 0
 #000000
-0.549465240641711 0.905829596412556
+0.482486631016043 0.90583
 0
 0
 0
@@ -43246,11 +43246,11 @@ auto
 #000000
 2 3 1
 1 1 1 1
-y-Axis
+<html><head><meta name="qrichtext" content="1" /></head><body style="font-size:15pt;font-family:Adobe Times"><p>De Jong's F2(x)</p></body></html>
 Adobe Times
 15 50 0
 #000000
-0.01 0.497757847533632
+0.01 0.630044843049327
 0
 0
 0
@@ -53489,7 +53489,7 @@ EOG 5
 0
 10
 1 2000
-0.051991 0.322322
+0.052 0.322
 0 0
 0 0 0 0
 0 0 0
@@ -53502,7 +53502,7 @@ EOG 5
 0 0
 1 2
 #ff0000 1
-<html><head><meta name="qrichtext" content="1" /></head><body style="font-size:22pt;font-family:Adobe Times"><p>Best element (average)</p></body></html>
+<html><head><meta name="qrichtext" content="1" /></head><body style="font-size:22pt;font-family:Adobe Times"><p>Best element</p></body></html>
 Adobe Times
 22 50 0
 #000000
@@ -53526,11 +53526,11 @@ Adobe Times
 #000000
 2 3 1
 1 1 1 1
-x-Axis
+<html><head><meta name="qrichtext" content="1" /></head><body style="font-size:15pt;font-family:Adobe Times"><p>Iterations</p></body></html>
 Adobe Times
 15 50 0
 #000000
-0.549465240641711 0.905829596412556
+0.482486631016043 0.90583
 0
 0
 0
@@ -53562,11 +53562,11 @@ auto
 #000000
 2 3 1
 1 1 1 1
-y-Axis
+<html><head><meta name="qrichtext" content="1" /></head><body style="font-size:15pt;font-family:Adobe Times"><p>De Jong's F2(x)</p></body></html>
 Adobe Times
 15 50 0
 #000000
-0.01 0.497757847533632
+0.01 0.630044843049327
 0
 0
 0
